@@ -10,11 +10,12 @@ import {
 } from '../services/auth.service';
 import { useAuthStore } from '../stores/auth.store';
 
-export function useCurrentUser(enabled = true) {
+export function useCurrentUser() {
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   return useQuery({
     queryKey: queryKeys.auth.me,
     queryFn: async () => (await authService.me()).user,
-    enabled,
+    enabled: isAuthenticated,
     staleTime: 5 * 60_000,
   });
 }
@@ -37,6 +38,7 @@ export function useRegister() {
     mutationFn: (input: RegisterInput) => authService.register(input),
     onSuccess: async ({ token, user }) => {
       await tokenStorage.set(token);
+      useAuthStore.getState().setSession(user);
       qc.setQueryData<User>(queryKeys.auth.me, user);
     },
   });
@@ -46,7 +48,8 @@ export function useLogout() {
   const qc = useQueryClient();
   return async () => {
     await tokenStorage.clear();
-    qc.clear();
     await asyncStoragePersister.removeClient();
+    useAuthStore.getState().clearSession();
+    qc.clear();
   };
 }

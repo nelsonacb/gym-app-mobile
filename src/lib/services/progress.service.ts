@@ -5,6 +5,7 @@ export interface OverallProgress {
   totalVolume: number;
   totalDurationSeconds: number;
   weeklyFrequency: Array<{ weekStart: string; count: number }>;
+  weeklyVolume: Array<{ weekStart: string; volume: number }>;
 }
 
 export interface ExerciseProgress {

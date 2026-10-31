@@ -67,6 +67,7 @@ export function useCompleteWorkoutSession() {
     mutationFn: (id: string) => workoutSessionsService.complete(id),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.workoutSessions.all });
+      qc.invalidateQueries({ queryKey: queryKeys.progress.overall });
     },
   });
 }
@@ -77,6 +78,7 @@ export function useCancelWorkoutSession() {
     mutationFn: (id: string) => workoutSessionsService.cancel(id),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.workoutSessions.all });
+      qc.invalidateQueries({ queryKey: queryKeys.progress.overall });
     },
   });
 }

@@ -26,7 +26,7 @@ export function FormField<T extends FieldValues>({
             {label}
           </Text>
           <TextInput
-            className={`rounded-lg border p-3 text-base ${
+            className={`rounded-lg border p-3 text-base dark:bg-gray-800 dark:text-white dark:border-gray-60 ${
               error
                 ? 'border-red-500 bg-red-50'
                 : 'border-gray-300 bg-white focus:border-blue-500'

@@ -1,23 +1,3 @@
-// import { Link } from 'expo-router';
-// import { Pressable, Text, View } from 'react-native';
-
-// export default function HomeScreen() {
-//   return (
-//     <View className='flex-1 items-center justify-center bg-white'>
-//       <Text>Abrir Formulario</Text>
-
-//       <Link
-//         href={'/(auth)/login'}
-//         asChild
-//       >
-//         <Pressable className='mt-4 rounded-lg bg-blue-600 px-6 py-3'>
-//           <Text className='text-white font-semibold'>Abrir Formulario</Text>
-//         </Pressable>
-//       </Link>
-//     </View>
-//   );
-// }
-
 import {
   ActivityIndicator,
   RefreshControl,
@@ -25,12 +5,15 @@ import {
   Text,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { WeeklyVolumeChart } from '../../components/WeeklyVolumeChart';
 import { ApiError } from '../../lib/api/errors';
 import { useCurrentUser } from '../../lib/hooks/use-auth';
 import { useHealth } from '../../lib/hooks/use-health';
 import { useOverallProgress } from '../../lib/hooks/use-progress';
 
 export default function DashboardScreen() {
+  const insets = useSafeAreaInsets();
   const health = useHealth();
   const me = useCurrentUser();
   const progress = useOverallProgress();
@@ -45,10 +28,14 @@ export default function DashboardScreen() {
     progress.refetch();
   };
 
+  const firstName = me.data?.name?.split(' ')[0];
+  const hasWeeklyData = !!progress.data?.weeklyFrequency?.length;
+
   return (
     <ScrollView
-      className='flex-1 bg-gray-50'
+      className='flex-1 bg-gray-50 dark:bg-gray-900'
       contentContainerClassName='p-4'
+      contentContainerStyle={{ paddingTop: insets.top + 16, paddingBottom: 16 }}
       refreshControl={
         <RefreshControl
           refreshing={
@@ -58,11 +45,23 @@ export default function DashboardScreen() {
         />
       }
     >
-      <Text className='mb-4 text-2xl font-bold text-gray-900'>Dashboard</Text>
+      {/* --- Saludo --- */}
+      <View className='mb-4 bg-white dark:bg-gray-800'>
+        <Text className='text-2xl font-bold text-gray-900'>
+          {firstName ? `Hola, ${firstName}` : 'Dashboard'}
+        </Text>
+        <Text className='text-sm text-gray-900 dark:text-white'>
+          {isUnauthenticated
+            ? 'Inicia sesión para ver tu progreso'
+            : 'Tu resumen de entrenamiento'}
+        </Text>
+      </View>
 
       {/* --- Backend --- */}
-      <View className='mb-4 rounded-2xl bg-white p-4'>
-        <Text className='mb-1 text-sm text-gray-500'>Backend</Text>
+      <View className='mb-4 rounded-2xl bg-white dark:bg-gray-800 p-4'>
+        <Text className='mb-1 text-sm text-gray-900 dark:text-white'>
+          Backend
+        </Text>
         {health.isLoading ? (
           <ActivityIndicator />
         ) : health.data ? (
@@ -83,22 +82,30 @@ export default function DashboardScreen() {
         ) : null}
       </View>
 
+      {/* --- Gráfico semanal --- */}
+      {hasWeeklyData ? (
+        <WeeklyVolumeChart weeklyVolume={progress.data!.weeklyVolume} />
+      ) : null}
+
       {/* --- Usuario --- */}
-      <View className='mb-4 rounded-2xl bg-white p-4'>
-        <Text className='mb-1 text-sm text-gray-500'>Usuario</Text>
+      <View className='mb-4 rounded-2xl bg-white dark:bg-gray-800 p-4'>
+        <Text className='mb-1 text-sm text-gray-900 dark:text-white'>
+          Usuario
+        </Text>
         {me.isLoading ? (
           <ActivityIndicator />
         ) : me.data ? (
           <>
-            <Text className='text-base font-semibold text-gray-900'>
+            <Text className='text-base font-semibold text-gray-500 dark:text-gray-400'>
               {me.data.name}
             </Text>
-            <Text className='text-sm text-gray-500'>{me.data.email}</Text>
+            <Text className='text-sm text-gray-500 dark:text-gray-400'>
+              {me.data.email}
+            </Text>
           </>
         ) : isUnauthenticated ? (
           <Text className='text-sm text-amber-600'>
-            No has iniciado sesión. Ve a la pestaña de login o usa el
-            formulario.
+            No has iniciado sesión. Ve a la pantalla de login.
           </Text>
         ) : (
           <Text className='text-sm text-red-600'>Error al cargar usuario</Text>
@@ -106,7 +113,7 @@ export default function DashboardScreen() {
       </View>
 
       {/* --- Progreso --- */}
-      <View className='mb-4 rounded-2xl bg-white p-4'>
+      <View className='mb-4 rounded-2xl bg-white dark:bg-gray-800 p-4'>
         <Text className='mb-2 text-sm text-gray-500'>Progreso general</Text>
         {isUnauthenticated ? (
           <Text className='text-sm text-amber-600'>
@@ -116,19 +123,15 @@ export default function DashboardScreen() {
           <ActivityIndicator />
         ) : progress.data ? (
           <>
-            <Text className='mt-1 text-gray-800'>
+            <Text className='mt-1 text-gray-900 dark:text-white'>
               Sesiones completadas: {progress.data.totalSessions}
             </Text>
-            <Text className='mt-1 text-gray-800'>
+            <Text className='mt-1 text-gray-900 dark:text-white'>
               Volumen total: {progress.data.totalVolume} kg
             </Text>
-            <Text className='mt-1 text-gray-800'>
+            <Text className='mt-1 text-gray-900 dark:text-white'>
               Duración total:{' '}
               {Math.round(progress.data.totalDurationSeconds / 60)} min
-            </Text>
-            <Text className='mt-2 text-xs text-gray-400'>
-              Frecuencia semanal: {progress.data.weeklyFrequency.length} semanas
-              registradas
             </Text>
           </>
         ) : (
