@@ -1,6 +1,8 @@
 import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { Pressable, Text, View } from 'react-native';
+import { exerciseToSlug } from '../../lib/slug';
 import type { WorkoutPlan } from '../lib/api/types';
+import { ExerciseIllustration } from './ExerciseIllustration';
 
 interface Props {
   plan: WorkoutPlan;
@@ -13,28 +15,22 @@ export function WorkoutPlanCard({ plan, onPress }: Props) {
   const muscleGroups = Array.from(
     new Set(plan.planExercises.map((pe) => pe.exercise.muscleGroup)),
   );
+  const previewExercises = plan.planExercises.slice(0, 3);
 
   return (
     <Pressable
       onPress={onPress}
-      className='mb-3 rounded-2xl border border-gray-200 bg-white p-4 active:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:active:bg-gray-750'
+      className='mb-3 rounded-2xl border border-gray-200 bg-white p-4 active:bg-gray-50 dark:border-gray-700 dark:bg-gray-800'
     >
       <View className='flex-row items-center'>
-        <View className='h-12 w-12 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/30'>
-          <Ionicons
-            name='barbell-outline'
-            size={24}
-            color='#2563EB'
-          />
-        </View>
-        <View className='ml-3 flex-1'>
+        <View className='flex-1'>
           <Text
             className='text-base font-bold text-gray-900 dark:text-white'
             numberOfLines={1}
           >
             {plan.name}
           </Text>
-          <Text className='text-xs text-gray-500 dark:text-gray-400'>
+          <Text className='mt-1 text-xs text-gray-500 dark:text-gray-400'>
             {exerciseCount} ejercicios · {totalSets} series
           </Text>
         </View>
@@ -44,6 +40,30 @@ export function WorkoutPlanCard({ plan, onPress }: Props) {
           color='#9CA3AF'
         />
       </View>
+
+      {/* Preview de ejercicios */}
+      {previewExercises.length > 0 ? (
+        <View className='mt-3 flex-row'>
+          {previewExercises.map((pe) => (
+            <View
+              key={pe.id}
+              className='mr-2'
+            >
+              <ExerciseIllustration
+                slug={exerciseToSlug(pe.exercise.name)}
+                size={52}
+              />
+            </View>
+          ))}
+          {exerciseCount > 3 ? (
+            <View className='h-[52px] w-[52px] items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-700'>
+              <Text className='text-xs font-semibold text-gray-600 dark:text-gray-300'>
+                +{exerciseCount - 3}
+              </Text>
+            </View>
+          ) : null}
+        </View>
+      ) : null}
 
       {plan.description ? (
         <Text

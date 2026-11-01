@@ -1,10 +1,24 @@
 const { getDefaultConfig } = require('expo/metro-config');
 const { withNativeWind } = require('nativewind/metro');
 
-// eslint-disable-next-line no-undef
-const config = getDefaultConfig(__dirname);
+const createConfig = () => {
+  const config = getDefaultConfig(__dirname);
+  const { transformer, resolver } = config;
 
-module.exports = withNativeWind(config, {
+  config.transformer = {
+    ...transformer,
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
+  };
+  config.resolver = {
+    ...resolver,
+    assetExts: resolver.assetExts.filter((ext) => ext !== 'svg'),
+    sourceExts: [...resolver.sourceExts, 'svg'],
+  };
+
+  return config;
+};
+
+module.exports = withNativeWind(createConfig(), {
   input: './src/global.css',
   inlineRem: 16,
 });

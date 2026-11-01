@@ -10,6 +10,8 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { exerciseToSlug } from '../../../lib/slug';
+import { ExerciseIllustration } from '../../components/ExerciseIllustration';
 import type { SessionExercise, WorkoutSet } from '../../lib/api/types';
 import {
   useCancelWorkoutSession,
@@ -158,13 +160,21 @@ function ExerciseBlock({
 }) {
   return (
     <View className='mb-4 rounded-2xl bg-white p-4 dark:bg-gray-800'>
-      <Text className='text-base font-bold text-gray-900 dark:text-white'>
-        {sessionExercise.exerciseName}
-      </Text>
-      <Text className='mb-3 text-xs text-gray-500 dark:text-gray-400'>
-        Objetivo: {sessionExercise.targetSets}×{sessionExercise.targetReps} ·
-        descanso {sessionExercise.restSeconds}s
-      </Text>
+      <View className='mb-3 flex-row items-center'>
+        <ExerciseIllustration
+          slug={exerciseToSlug(sessionExercise.exerciseName)}
+          size={56}
+        />
+        <View className='ml-3 flex-1'>
+          <Text className='text-base font-bold text-gray-900 dark:text-white'>
+            {sessionExercise.exerciseName}
+          </Text>
+          <Text className='text-xs text-gray-500 dark:text-gray-400'>
+            {sessionExercise.targetSets}×{sessionExercise.targetReps} · descanso{' '}
+            {sessionExercise.restSeconds}s
+          </Text>
+        </View>
+      </View>
 
       {sessionExercise.sets.map((set) => (
         <SetRow

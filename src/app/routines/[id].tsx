@@ -8,6 +8,8 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { exerciseToSlug } from '../../../lib/slug';
+import { ExerciseIllustration } from '../../components/ExerciseIllustration';
 import { ApiError } from '../../lib/api/errors';
 import { useWorkoutPlan } from '../../lib/hooks/use-workout-plans';
 import { useStartWorkoutSession } from '../../lib/hooks/use-workout-sessions';
@@ -136,7 +138,7 @@ export default function PlanDetailScreen() {
           </View>
         </View>
 
-        {/* Exercises */}
+        {/* Exercises con ilustración */}
         <Text className='mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400'>
           EJERCICIOS
         </Text>
@@ -145,16 +147,13 @@ export default function PlanDetailScreen() {
             key={pe.id}
             className='mb-3 flex-row items-center rounded-2xl bg-white p-3 dark:bg-gray-800'
           >
-            <View className='h-12 w-12 items-center justify-center rounded-full bg-blue-50 dark:bg-blue-900/30'>
-              <Ionicons
-                name='barbell-outline'
-                size={22}
-                color='#2563EB'
-              />
-            </View>
+            <ExerciseIllustration
+              slug={exerciseToSlug(pe.exercise.name)}
+              size={56}
+            />
             <View className='ml-3 flex-1'>
-              <Text className='text-xs text-gray-400 dark:text-gray-500'>
-                {idx + 1}
+              <Text className='text-[10px] font-medium text-gray-400 dark:text-gray-500'>
+                #{idx + 1}
               </Text>
               <Text className='text-base font-semibold text-gray-900 dark:text-white'>
                 {pe.exercise.name}
