@@ -29,20 +29,20 @@ export default function LoginScreen() {
       <FormField
         control={control}
         name='email'
-        label='Correo'
+        label='Email'
         keyboardType='email-address'
         autoCapitalize='none'
       />
       <FormField
         control={control}
         name='password'
-        label='Contraseña'
+        label='Password'
         secureTextEntry
       />
 
       {login.error ? (
         <Text className='mb-2 text-center text-sm text-red-500'>
-          Credenciales inválidas
+          Invalid credentials
         </Text>
       ) : null}
 
@@ -52,7 +52,7 @@ export default function LoginScreen() {
         disabled={login.isPending}
       >
         <Text className='font-semibold text-white'>
-          {login.isPending ? 'Ingresando...' : 'Iniciar Sesión'}
+          {login.isPending ? 'Logging in...' : 'Login'}
         </Text>
       </Pressable>
 
@@ -61,7 +61,7 @@ export default function LoginScreen() {
         onPress={() => router.push('/(auth)/register')}
       >
         <Text className='text-sm text-blue-600'>
-          ¿No tienes cuenta? Regístrate
+          Don't have an account? Sign up
         </Text>
       </Pressable>
     </View>

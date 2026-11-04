@@ -16,7 +16,7 @@ export function ExerciseIllustration({ slug, size = 96 }: Props) {
   if (!SvgComponent) {
     return (
       <View
-        className='items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-700'
+        className='items-center justify-center rounded-xl bg-slate-800'
         style={{ width: size, height: size }}
       >
         <Ionicons

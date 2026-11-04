@@ -19,3 +19,11 @@ export function useExercise(id: string) {
     enabled: !!id,
   });
 }
+
+export function useExerciseDetail(id: string) {
+  return useQuery({
+    queryKey: queryKeys.exercises.detail(id),
+    queryFn: () => exercisesService.detail(id).then((r) => r.exercise),
+    enabled: !!id,
+  });
+}

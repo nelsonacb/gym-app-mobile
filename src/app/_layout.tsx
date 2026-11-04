@@ -43,6 +43,11 @@ function RootLayoutNav() {
       <Stack.Screen name='(auth)' />
       <Stack.Screen name='routines/[id]' />
       <Stack.Screen name='session/[id]' />
+      <Stack.Screen name='exercise/[id]' />
+      <Stack.Screen
+        name='plan-form'
+        options={{ presentation: 'modal', headerShown: false }}
+      />
     </Stack>
   );
 }

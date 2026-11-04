@@ -46,7 +46,7 @@ export default function ActiveSessionScreen() {
         style={{ paddingTop: insets.top }}
       >
         <Text className='text-center text-red-500'>
-          No se pudo cargar la sesión.
+          The session could not be loaded.
         </Text>
       </View>
     );
@@ -89,10 +89,10 @@ export default function ActiveSessionScreen() {
         </Pressable>
         <View className='ml-2 flex-1'>
           <Text className='text-base font-bold text-gray-900 dark:text-white'>
-            Entrenamiento
+            Training
           </Text>
           <Text className='text-xs text-gray-500 dark:text-gray-400'>
-            {completedSets}/{totalSets} series completadas
+            {completedSets}/{totalSets} completed series
           </Text>
         </View>
       </View>
@@ -129,9 +129,7 @@ export default function ActiveSessionScreen() {
             disabled={completeSession.isPending}
           >
             <Text className='text-base font-semibold text-white'>
-              {completeSession.isPending
-                ? 'Finalizando...'
-                : 'Finalizar entrenamiento'}
+              {completeSession.isPending ? 'Concluding...' : 'End workout'}
             </Text>
           </Pressable>
           <Pressable
@@ -140,7 +138,7 @@ export default function ActiveSessionScreen() {
             disabled={cancelSession.isPending}
           >
             <Text className='text-sm font-medium text-red-600 dark:text-red-400'>
-              {cancelSession.isPending ? 'Cancelando...' : 'Cancelar sesión'}
+              {cancelSession.isPending ? 'Canceling...' : 'End session'}
             </Text>
           </Pressable>
         </View>
@@ -170,7 +168,7 @@ function ExerciseBlock({
             {sessionExercise.exerciseName}
           </Text>
           <Text className='text-xs text-gray-500 dark:text-gray-400'>
-            {sessionExercise.targetSets}×{sessionExercise.targetReps} · descanso{' '}
+            {sessionExercise.targetSets}×{sessionExercise.targetReps} · rest{' '}
             {sessionExercise.restSeconds}s
           </Text>
         </View>

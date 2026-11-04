@@ -1,5 +1,12 @@
+import Ionicons from '@react-native-vector-icons/ionicons';
 import { useRouter } from 'expo-router';
-import { ActivityIndicator, FlatList, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  Text,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WorkoutPlanCard } from '../../components/WorkoutPlanCard';
 import { useWorkoutPlans } from '../../lib/hooks/use-workout-plans';
@@ -24,50 +31,62 @@ export default function RoutinesScreen() {
     return (
       <View className='flex-1 items-center justify-center bg-gray-50 px-6 dark:bg-gray-900'>
         <Text className='text-center text-red-500'>
-          Error al cargar rutinas: {String(error)}
+          Error loading routines: {String(error)}
         </Text>
       </View>
     );
   }
 
   return (
-    <FlatList
-      className='flex-1 bg-gray-50 dark:bg-gray-900'
-      contentContainerStyle={{
-        paddingTop: insets.top + 16,
-        paddingHorizontal: 16,
-        paddingBottom: 16,
-      }}
-      data={plans ?? []}
-      keyExtractor={(p) => p.id}
-      refreshing={isLoading}
-      onRefresh={refetch}
-      ListHeaderComponent={
-        <View className='mb-4'>
-          <Text className='text-2xl font-bold text-gray-900 dark:text-white'>
-            Rutinas
+    <>
+      <FlatList
+        className='flex-1 bg-gray-50 dark:bg-gray-900'
+        contentContainerStyle={{
+          paddingTop: insets.top + 16,
+          paddingHorizontal: 16,
+          paddingBottom: 16,
+        }}
+        data={plans ?? []}
+        keyExtractor={(p) => p.id}
+        refreshing={isLoading}
+        onRefresh={refetch}
+        ListHeaderComponent={
+          <View className='mb-4'>
+            <Text className='text-2xl font-bold text-gray-900 dark:text-white'>
+              Routines
+            </Text>
+            <Text className='text-sm text-gray-500 dark:text-gray-400'>
+              {plans?.length ?? 0} available plans
+            </Text>
+          </View>
+        }
+        ListEmptyComponent={
+          <Text className='mt-10 text-center text-gray-500 dark:text-gray-400'>
+            No routines are available.
           </Text>
-          <Text className='text-sm text-gray-500 dark:text-gray-400'>
-            {plans?.length ?? 0} planes disponibles
-          </Text>
-        </View>
-      }
-      ListEmptyComponent={
-        <Text className='mt-10 text-center text-gray-500 dark:text-gray-400'>
-          No hay rutinas disponibles.
-        </Text>
-      }
-      renderItem={({ item }) => (
-        <WorkoutPlanCard
-          plan={item}
-          onPress={() =>
-            router.push({
-              pathname: '/routines/[id]',
-              params: { id: item.id },
-            })
-          }
+        }
+        renderItem={({ item }) => (
+          <WorkoutPlanCard
+            plan={item}
+            onPress={() =>
+              router.push({
+                pathname: '/routines/[id]',
+                params: { id: item.id },
+              })
+            }
+          />
+        )}
+      />{' '}
+      <Pressable
+        onPress={() => router.push('/plan-form')}
+        className='absolute bottom-6 right-6 h-14 w-14 items-center justify-center rounded-full bg-blue-600 shadow-lg'
+      >
+        <Ionicons
+          name='add'
+          size={28}
+          color='#FFFFFF'
         />
-      )}
-    />
+      </Pressable>
+    </>
   );
 }

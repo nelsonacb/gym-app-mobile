@@ -69,13 +69,13 @@ export default function PlanDetailScreen() {
         style={{ paddingTop: insets.top }}
       >
         <Text className='text-center text-red-500'>
-          No se pudo cargar el plan.
+          The plan could not be loaded.
         </Text>
         <Pressable
           className='mt-4 rounded-lg bg-blue-600 px-6 py-3'
           onPress={() => router.back()}
         >
-          <Text className='font-semibold text-white'>Volver</Text>
+          <Text className='font-semibold text-white'>Come Back</Text>
         </Pressable>
       </View>
     );
@@ -121,7 +121,7 @@ export default function PlanDetailScreen() {
           <View className='flex-row'>
             <View className='mr-8'>
               <Text className='text-xs text-gray-500 dark:text-gray-400'>
-                Ejercicios
+                Exercices
               </Text>
               <Text className='text-base font-bold text-gray-900 dark:text-white'>
                 {plan.planExercises.length}
@@ -129,7 +129,7 @@ export default function PlanDetailScreen() {
             </View>
             <View>
               <Text className='text-xs text-gray-500 dark:text-gray-400'>
-                Series totales
+                Total sets
               </Text>
               <Text className='text-base font-bold text-gray-900 dark:text-white'>
                 {totalSets}
@@ -140,7 +140,7 @@ export default function PlanDetailScreen() {
 
         {/* Exercises con ilustración */}
         <Text className='mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400'>
-          EJERCICIOS
+          EXERCICES
         </Text>
         {plan.planExercises.map((pe, idx) => (
           <View
@@ -160,8 +160,16 @@ export default function PlanDetailScreen() {
               </Text>
               <Text className='text-xs text-gray-500 dark:text-gray-400'>
                 {pe.exercise.muscleGroup} · {pe.targetSets}×{pe.targetReps} ·
-                descanso {pe.restSeconds}s
+                rest {pe.restSeconds}s
               </Text>
+              <Pressable
+                onPress={() =>
+                  router.push({
+                    pathname: '/exercise/[id]',
+                    params: { id: pe.exerciseId },
+                  })
+                }
+              ></Pressable>
             </View>
           </View>
         ))}
@@ -180,7 +188,7 @@ export default function PlanDetailScreen() {
           disabled={startSession.isPending}
         >
           <Text className='text-base font-semibold text-white'>
-            {startSession.isPending ? 'Iniciando...' : 'Iniciar sesión'}
+            {startSession.isPending ? 'Starting...' : 'Login'}
           </Text>
         </Pressable>
       </View>

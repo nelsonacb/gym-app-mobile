@@ -46,14 +46,14 @@ export function WeeklyVolumeChart({ weeklyVolume }: Props) {
         className='mb-1 text-base font-bold'
         style={{ color: colors.title }}
       >
-        Volumen semanal
+        Weekly volume
       </Text>
       <Text
         className='mb-4 text-xs'
         style={{ color: colors.subtitle }}
       >
-        {totalVolume.toLocaleString()} kg acumulados en {weeklyVolume.length}{' '}
-        semanas
+        {totalVolume.toLocaleString()} kg accumulated in {weeklyVolume.length}{' '}
+        weeks
       </Text>
 
       <BarChart

@@ -1,3 +1,4 @@
+import { ShareableSummary } from '@/components/ShareableSummary';
 import {
   ActivityIndicator,
   RefreshControl,
@@ -9,12 +10,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WeeklyVolumeChart } from '../../components/WeeklyVolumeChart';
 import { ApiError } from '../../lib/api/errors';
 import { useCurrentUser } from '../../lib/hooks/use-auth';
-import { useHealth } from '../../lib/hooks/use-health';
 import { useOverallProgress } from '../../lib/hooks/use-progress';
 
 export default function DashboardScreen() {
   const insets = useSafeAreaInsets();
-  const health = useHealth();
   const me = useCurrentUser();
   const progress = useOverallProgress();
 
@@ -23,7 +22,6 @@ export default function DashboardScreen() {
     (progress.error instanceof ApiError && progress.error.status === 401);
 
   const onRefresh = () => {
-    health.refetch();
     me.refetch();
     progress.refetch();
   };
@@ -38,60 +36,30 @@ export default function DashboardScreen() {
       contentContainerStyle={{ paddingTop: insets.top + 16, paddingBottom: 16 }}
       refreshControl={
         <RefreshControl
-          refreshing={
-            health.isRefetching || me.isRefetching || progress.isRefetching
-          }
+          refreshing={me.isRefetching || progress.isRefetching}
           onRefresh={onRefresh}
         />
       }
     >
       {/* --- Saludo --- */}
-      <View className='mb-4 bg-white dark:bg-gray-800'>
-        <Text className='text-2xl font-bold text-gray-900'>
-          {firstName ? `Hola, ${firstName}` : 'Dashboard'}
+      <View className='mb-4 bg-white dark:bg-gray-800 p-4'>
+        <Text className='text-2xl font-bold text-gray-900 dark:text-white'>
+          {firstName ? `Hello, ${firstName}` : 'Dashboard'}
         </Text>
         <Text className='text-sm text-gray-900 dark:text-white'>
           {isUnauthenticated
-            ? 'Inicia sesión para ver tu progreso'
-            : 'Tu resumen de entrenamiento'}
+            ? 'Log in to see your progress'
+            : 'Your training summary'}
         </Text>
-      </View>
-
-      {/* --- Backend --- */}
-      <View className='mb-4 rounded-2xl bg-white dark:bg-gray-800 p-4'>
-        <Text className='mb-1 text-sm text-gray-900 dark:text-white'>
-          Backend
-        </Text>
-        {health.isLoading ? (
-          <ActivityIndicator />
-        ) : health.data ? (
-          <Text className='text-base font-semibold text-green-600'>
-            ✅ Conectado ({health.data.status})
-          </Text>
-        ) : (
-          <Text className='text-base font-semibold text-red-600'>
-            ❌ Sin conexión
-          </Text>
-        )}
-        {health.error ? (
-          <Text className='mt-1 text-xs text-red-500'>
-            {health.error instanceof Error
-              ? health.error.message
-              : String(health.error)}
-          </Text>
-        ) : null}
       </View>
 
       {/* --- Gráfico semanal --- */}
       {hasWeeklyData ? (
         <WeeklyVolumeChart weeklyVolume={progress.data!.weeklyVolume} />
       ) : null}
-
       {/* --- Usuario --- */}
       <View className='mb-4 rounded-2xl bg-white dark:bg-gray-800 p-4'>
-        <Text className='mb-1 text-sm text-gray-900 dark:text-white'>
-          Usuario
-        </Text>
+        <Text className='mb-1 text-sm text-gray-900 dark:text-white'>User</Text>
         {me.isLoading ? (
           <ActivityIndicator />
         ) : me.data ? (
@@ -105,38 +73,43 @@ export default function DashboardScreen() {
           </>
         ) : isUnauthenticated ? (
           <Text className='text-sm text-amber-600'>
-            No has iniciado sesión. Ve a la pantalla de login.
+            You are not logged in. Go to the login screen.
           </Text>
         ) : (
-          <Text className='text-sm text-red-600'>Error al cargar usuario</Text>
+          <Text className='text-sm text-red-600'>Error loading user</Text>
         )}
       </View>
-
       {/* --- Progreso --- */}
-      <View className='mb-4 rounded-2xl bg-white dark:bg-gray-800 p-4'>
-        <Text className='mb-2 text-sm text-gray-500'>Progreso general</Text>
+      <View className='mb-4 rounded-2xl bg-white p-4 dark:bg-gray-800'>
+        <Text className='mb-2 text-sm text-gray-500'>Overall progress</Text>
         {isUnauthenticated ? (
           <Text className='text-sm text-amber-600'>
-            Inicia sesión para ver tu progreso.
+            Log in to see your progress.
           </Text>
         ) : progress.isLoading ? (
           <ActivityIndicator />
-        ) : progress.data ? (
+        ) : progress.data && me.data ? (
           <>
             <Text className='mt-1 text-gray-900 dark:text-white'>
-              Sesiones completadas: {progress.data.totalSessions}
+              Sessions completed: {progress.data.totalSessions}
             </Text>
             <Text className='mt-1 text-gray-900 dark:text-white'>
-              Volumen total: {progress.data.totalVolume} kg
+              Total volume: {progress.data.totalVolume} kg
             </Text>
             <Text className='mt-1 text-gray-900 dark:text-white'>
-              Duración total:{' '}
+              Total duration:{' '}
               {Math.round(progress.data.totalDurationSeconds / 60)} min
             </Text>
+            <ShareableSummary
+              userName={me.data.name}
+              weeklyVolume={progress.data.weeklyVolume}
+              totalSessions={progress.data.totalSessions}
+              totalVolume={progress.data.totalVolume}
+            />
           </>
         ) : (
           <Text className='text-sm text-red-600'>
-            No se pudo cargar el progreso
+            Progress could not be loaded
           </Text>
         )}
       </View>

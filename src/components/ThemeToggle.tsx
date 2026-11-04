@@ -15,7 +15,7 @@ export function ThemeToggle() {
   return (
     <View className='flex-row items-center justify-between rounded-2xl bg-white p-4 dark:bg-gray-800'>
       <Text className='text-base font-medium text-gray-900 dark:text-white'>
-        Modo Oscuro
+        Dark Mode
       </Text>
       <Switch
         value={colorScheme === 'dark'}

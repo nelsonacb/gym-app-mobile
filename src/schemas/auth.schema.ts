@@ -1,20 +1,22 @@
 import { z } from 'zod';
 
 export const loginSchema = z.object({
-  email: z.email('El formato del correo no es válido'),
-  password: z.string().min(8, 'La contraseña debe tener al menos 8 caracteres'),
+  email: z.email('The email format is invalid.'),
+  password: z
+    .string()
+    .min(8, 'The password must be at least 8 characters long.'),
 });
 
 export const registerSchema = z.object({
   name: z
     .string()
-    .min(2, 'Mínimo 2 caracteres')
-    .max(80, 'Máximo 80 caracteres'),
-  email: z.email('Email inválido'),
+    .min(2, 'Minimum 2 characters')
+    .max(80, 'Maximum 80 characters'),
+  email: z.email('Invalid email'),
   password: z
     .string()
-    .min(8, 'Mínimo 8 caracteres')
-    .max(72, 'Máximo 72 caracteres'),
+    .min(8, 'Minimum 8 characters')
+    .max(72, 'Maximum 72 characters'),
 });
 
 export type LoginFormData = z.infer<typeof loginSchema>;

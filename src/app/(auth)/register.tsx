@@ -25,31 +25,31 @@ export default function RegisterScreen() {
   const errorMessage =
     register.error instanceof ApiError
       ? register.error.status === 409
-        ? 'Este correo ya está registrado'
+        ? 'This email is already registered'
         : register.error.message
       : null;
 
   return (
     <View className='flex-1 justify-center bg-gray-50 px-6'>
       <Text className='mb-2 text-center text-3xl font-bold text-gray-900'>
-        Crear cuenta
+        Create account
       </Text>
       <Text className='mb-8 text-center text-sm text-gray-500'>
-        Empieza a registrar tus entrenamientos
+        Start logging your workouts
       </Text>
 
       <FormField
         control={control}
         name='name'
-        label='Nombre'
-        placeholder='Tu nombre'
+        label='Name'
+        placeholder='Your name'
         autoCapitalize='words'
       />
 
       <FormField
         control={control}
         name='email'
-        label='Correo'
+        label='Email'
         placeholder='tu@email.com'
         keyboardType='email-address'
         autoCapitalize='none'
@@ -58,7 +58,7 @@ export default function RegisterScreen() {
       <FormField
         control={control}
         name='password'
-        label='Contraseña'
+        label='Password'
         placeholder='********'
         secureTextEntry
       />
@@ -77,7 +77,7 @@ export default function RegisterScreen() {
         disabled={register.isPending}
       >
         <Text className='font-semibold text-white'>
-          {register.isPending ? 'Creando cuenta...' : 'Registrarse'}
+          {register.isPending ? 'Creating account...' : 'Register'}
         </Text>
       </Pressable>
 
@@ -86,7 +86,7 @@ export default function RegisterScreen() {
         onPress={() => router.back()}
       >
         <Text className='text-sm text-blue-600'>
-          ¿Ya tienes cuenta? Inicia sesión
+          Already have an account? Log in
         </Text>
       </Pressable>
     </View>

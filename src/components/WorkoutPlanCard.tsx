@@ -31,7 +31,7 @@ export function WorkoutPlanCard({ plan, onPress }: Props) {
             {plan.name}
           </Text>
           <Text className='mt-1 text-xs text-gray-500 dark:text-gray-400'>
-            {exerciseCount} ejercicios · {totalSets} series
+            {exerciseCount} exercises · {totalSets} sets
           </Text>
         </View>
         <Ionicons
@@ -41,7 +41,6 @@ export function WorkoutPlanCard({ plan, onPress }: Props) {
         />
       </View>
 
-      {/* Preview de ejercicios */}
       {previewExercises.length > 0 ? (
         <View className='mt-3 flex-row'>
           {previewExercises.map((pe) => (
@@ -56,8 +55,8 @@ export function WorkoutPlanCard({ plan, onPress }: Props) {
             </View>
           ))}
           {exerciseCount > 3 ? (
-            <View className='h-[52px] w-[52px] items-center justify-center rounded-xl bg-gray-100 dark:bg-gray-700'>
-              <Text className='text-xs font-semibold text-gray-600 dark:text-gray-300'>
+            <View className='h-[52px] w-[52px] items-center justify-center rounded-xl bg-slate-800'>
+              <Text className='text-xs font-semibold text-gray-300'>
                 +{exerciseCount - 3}
               </Text>
             </View>

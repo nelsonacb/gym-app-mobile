@@ -1,4 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { queryKeys } from '../query/query-keys';
 import {
   workoutSessionsService,
@@ -79,6 +84,26 @@ export function useCancelWorkoutSession() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.workoutSessions.all });
       qc.invalidateQueries({ queryKey: queryKeys.progress.overall });
+    },
+  });
+}
+
+export function useInfiniteWorkoutSessions(
+  filters: Omit<SessionFilters, 'offset' | 'limit'> = {},
+) {
+  const pageSize = 20;
+  return useInfiniteQuery({
+    queryKey: ['workout-sessions', 'infinite', filters] as const,
+    queryFn: ({ pageParam }) =>
+      workoutSessionsService.list({
+        ...filters,
+        limit: pageSize,
+        offset: pageParam,
+      }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const loaded = allPages.reduce((sum, p) => sum + p.items.length, 0);
+      return loaded < lastPage.total ? loaded : undefined;
     },
   });
 }
