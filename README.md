@@ -1,25 +1,184 @@
-Bueno ya termine el MVP, o casi, ya que aun tengo unos errores que solucionar.
-He estado probando la app y me he encontrado algunos errores.
-Por ejemplo al navegar a la screen de Rutinas obtengo este error:
-ERROR Text strings must be rendered within a <Text> component.
+````markdown
+# 🏋️ ForgeFit Mobile
 
-Code: _layout.tsx
-13 |
-14 | return (
+A mobile gym app built with **React Native + Expo + TypeScript**. Authenticate, create and run workout routines, log sets (weight/reps), track weekly progress with charts, and share summaries.
 
-> 15 | <Tabs
-> | ^
-> 16 | screenOptions={{
-> 17 | headerShown: false,
-> 18 | tabBarActiveTintColor: activeTint,
-> Call Stack
-> TabLayout (src\app\(tabs)\_layout.tsx:15:5)
-> RootLayoutNav (src\app\_layout.tsx:41:5)
-> RootLayout (src\app\_layout.tsx:61:7)
+---
 
-Ademas tengo otros errores como:
-POST /api/workout-sessions/start 409 6.627 ms - 154 que devuelve al backend luego de ir a la screen rutinas y dar a iniciar sesion, no funciona y lanza este error, es raro porque esto al inicio no pasaba y me funcionaba. Bueno ahora mismo me da error y no logro iniciar la rutina.
-Ademas al crear un nuevo ejercicio no se adiciona aunque le de al boton de Guardar.
+## ✨ Features
 
-Y el ultimo error que vi fue este: GET /api/progress/overall 401 7.227 ms - 78 el backend me lanzo este error.
-Bueno estos serian los errores mas serios que note, lo demas son detalles de diseño que puedo solventar facilmente.
+- 🔐 **Authentication** with JWT and secure persistence (`expo-secure-store`).
+- 🏋️ **Routines** — global and custom plans with exercises, sets, and rest times.
+- ▶️ **Active sessions** — real-time set logging (kg/reps, complete or skip).
+- 📊 **Dashboard** — weekly volume chart and overall metrics.
+- 📜 **History** — paginated sessions with status filters (completed, in progress, cancelled).
+- 👤 **Profile** — preferences, stats, and light/dark theme toggle.
+- 🔔 **Weekly reminders** (optional, requires development build on Android).
+- 📸 **Share summary** as a PNG image.
+- 🎨 **Dark mode** with NativeWind (`class` strategy).
+
+---
+
+## 🧰 Tech Stack
+
+| Layer         | Technology                                     |
+| :------------ | :--------------------------------------------- |
+| Framework     | Expo SDK 57, React Native 0.86                 |
+| Language      | TypeScript                                     |
+| Routing       | Expo Router (file-based)                       |
+| Styling       | NativeWind (Tailwind CSS)                      |
+| Server state  | TanStack Query                                 |
+| Client state  | Zustand                                        |
+| Forms         | React Hook Form + Zod                          |
+| Charts        | react-native-gifted-charts                     |
+| Icons         | @react-native-vector-icons/ionicons            |
+| Illustrations | Local SVGs with `react-native-svg-transformer` |
+| Notifications | expo-notifications                             |
+
+---
+
+## 📋 Requirements
+
+- Node.js ≥ 20
+- npm or yarn
+- Expo Go on your device (or a development build for notifications on Android)
+- ForgeFit backend running (default: `http://<your-ip>:4000/api`)
+
+---
+
+## 🚀 Getting Started
+
+```bash
+# 1. Clone the repository
+git clone <your-repo-url>
+cd gymapp
+
+# 2. Install dependencies
+npm install
+
+# 3. (Optional) Configure the backend URL
+echo "EXPO_PUBLIC_API_URL=http://192.168.X.X:4000/api" > .env
+
+# 4. Start the app
+npx expo start
+```
+````
+
+Scan the QR code with **Expo Go** or press `a` / `i` to open in an emulator.
+
+> **Note:** if `EXPO_PUBLIC_API_URL` is not set, the app auto-detects the Expo host IP (`Constants.expoConfig.hostUri`). This works when the backend runs on the same machine as Expo.
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── app/                        # Expo Router routes
+│   ├── _layout.tsx             # Root (providers + auth gate)
+│   ├── (auth)/                 # Login and Register
+│   ├── (tabs)/                 # Dashboard, Routines, History, Profile
+│   ├── routines/[id].tsx       # Plan detail
+│   ├── session/[id].tsx        # Active session / read-only view
+│   ├── exercise/[id].tsx       # Per-exercise progress
+│   └── plan-form.tsx           # Create/edit routine (modal)
+├── components/                 # Reusable UI
+├── lib/
+│   ├── api/                    # fetch wrapper, types, errors, token
+│   ├── services/               # Per-resource API calls
+│   ├── hooks/                  # React Query hooks
+│   ├── query/                  # QueryClient, keys, persister
+│   ├── stores/                 # Zustand (auth, ui)
+│   └── schemas/                # Zod schemas
+└── assets/
+    └── exercises/              # Exercise SVGs
+```
+
+---
+
+## 🗺️ Main Routes
+
+| Route              | Description                        |
+| :----------------- | :--------------------------------- |
+| `/(auth)/login`    | Sign in                            |
+| `/(auth)/register` | User registration                  |
+| `/(tabs)`          | Dashboard (Home)                   |
+| `/(tabs)/routines` | Workout plan list                  |
+| `/(tabs)/history`  | Paginated session history          |
+| `/(tabs)/profile`  | Profile and preferences            |
+| `/routines/[id]`   | Plan detail                        |
+| `/session/[id]`    | Active session or read-only detail |
+| `/exercise/[id]`   | Exercise progress and PRs          |
+| `/plan-form`       | Create/edit routine (modal)        |
+
+---
+
+## 🔌 API (Overview)
+
+Base: `http://<host>:4000/api`
+
+| Method | Endpoint                                       | Auth |
+| :----- | :--------------------------------------------- | :--- |
+| POST   | `/auth/register`                               | —    |
+| POST   | `/auth/login`                                  | —    |
+| GET    | `/auth/me`                                     | 🔒   |
+| GET    | `/users/me/preferences`                        | 🔒   |
+| PUT    | `/users/me/preferences`                        | 🔒   |
+| GET    | `/exercises`                                   | 🔒   |
+| GET    | `/workout-plans`                               | 🔒   |
+| POST   | `/workout-plans`                               | 🔒   |
+| GET    | `/workout-plans/:id`                           | 🔒   |
+| PATCH  | `/workout-plans/:id`                           | 🔒   |
+| DELETE | `/workout-plans/:id`                           | 🔒   |
+| GET    | `/workout-sessions`                            | 🔒   |
+| POST   | `/workout-sessions/start`                      | 🔒   |
+| PATCH  | `/workout-sessions/:id/exercises/:eid/sets/:n` | 🔒   |
+| POST   | `/workout-sessions/:id/complete`               | 🔒   |
+| POST   | `/workout-sessions/:id/cancel`                 | 🔒   |
+| GET    | `/progress/overall`                            | 🔒   |
+| GET    | `/progress/exercises/:id`                      | 🔒   |
+
+🔒 = requires `Authorization: Bearer <token>`.
+
+---
+
+## 🧪 Scripts
+
+```bash
+npm start          # Start Metro
+npm run android    # Open on Android
+npm run ios        # Open on iOS
+npm run web        # Open in browser
+npm run lint       # Linter
+```
+
+---
+
+## 🎨 Adding Exercise Illustrations
+
+1. Copy the exercise folder to `src/assets/exercises/<slug>/frame-1.svg`.
+2. Add its `import` in `src/lib/exercise-assets.ts`:
+
+```ts
+import BenchPress from '../assets/exercises/bench-press/frame-1.svg';
+
+const exerciseMap = {
+  'bench-press': BenchPress,
+  // ...
+};
+```
+
+3. Done. `ExerciseIllustration` resolves the SVG using the slug derived from the exercise name (`name.toLowerCase().replace(/\s+/g, '-')`).
+
+> If an exercise has no SVG, a generic dumbbell icon (`Ionicons barbell-outline`) is shown instead of breaking the UI.
+
+---
+
+## 📱 Expo Go Notes
+
+- **Local notifications** work on **iOS** and on **Android with a development build**. On Android + Expo Go, the toggle is disabled with a warning (SDK 57 known issue).
+- **SVGs** are bundled (offline). Only the exercises in use are copied to keep the bundle small (~18 assets vs. 54 MB full set).
+
+```
+
+```
