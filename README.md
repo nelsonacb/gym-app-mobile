@@ -1,4 +1,3 @@
-````markdown
 # 🏋️ ForgeFit Mobile
 
 A mobile gym app built with **React Native + Expo + TypeScript**. Authenticate, create and run workout routines, log sets (weight/reps), track weekly progress with charts, and share summaries.
@@ -62,6 +61,7 @@ echo "EXPO_PUBLIC_API_URL=http://192.168.X.X:4000/api" > .env
 # 4. Start the app
 npx expo start
 ```
+
 ````
 
 Scan the QR code with **Expo Go** or press `a` / `i` to open in an emulator.
@@ -178,7 +178,4 @@ const exerciseMap = {
 
 - **Local notifications** work on **iOS** and on **Android with a development build**. On Android + Expo Go, the toggle is disabled with a warning (SDK 57 known issue).
 - **SVGs** are bundled (offline). Only the exercises in use are copied to keep the bundle small (~18 assets vs. 54 MB full set).
-
-```
-
-```
+````
