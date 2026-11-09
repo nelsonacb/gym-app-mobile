@@ -8,13 +8,13 @@ import type {
   WorkoutSet,
 } from '../api/types';
 
-export interface SessionFilters {
+export type SessionFilters = {
   status?: SessionStatus;
   from?: string;
   to?: string;
   limit?: number;
   offset?: number;
-}
+};
 
 export interface StartSessionInput {
   workoutPlanId: string;

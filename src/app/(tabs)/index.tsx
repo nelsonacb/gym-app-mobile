@@ -41,7 +41,6 @@ export default function DashboardScreen() {
         />
       }
     >
-      {/* --- Saludo --- */}
       <View className='mb-4 bg-white dark:bg-gray-800 p-4'>
         <Text className='text-2xl font-bold text-gray-900 dark:text-white'>
           {firstName ? `Hello, ${firstName}` : 'Dashboard'}
@@ -53,11 +52,9 @@ export default function DashboardScreen() {
         </Text>
       </View>
 
-      {/* --- Gráfico semanal --- */}
       {hasWeeklyData ? (
         <WeeklyVolumeChart weeklyVolume={progress.data!.weeklyVolume} />
       ) : null}
-      {/* --- Usuario --- */}
       <View className='mb-4 rounded-2xl bg-white dark:bg-gray-800 p-4'>
         <Text className='mb-1 text-sm text-gray-900 dark:text-white'>User</Text>
         {me.isLoading ? (
@@ -79,7 +76,6 @@ export default function DashboardScreen() {
           <Text className='text-sm text-red-600'>Error loading user</Text>
         )}
       </View>
-      {/* --- Progreso --- */}
       <View className='mb-4 rounded-2xl bg-white p-4 dark:bg-gray-800'>
         <Text className='mb-2 text-sm text-gray-500'>Overall progress</Text>
         {isUnauthenticated ? (

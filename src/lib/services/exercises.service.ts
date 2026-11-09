@@ -1,11 +1,11 @@
 import { apiRequest } from '../api/client';
 import type { Equipment, Exercise, MuscleGroup } from '../api/types';
 
-export interface ExerciseFilters {
+export type ExerciseFilters = {
   muscleGroup?: MuscleGroup;
   equipment?: Equipment;
   search?: string;
-}
+};
 
 export const exercisesService = {
   list: (filters: ExerciseFilters = {}) =>

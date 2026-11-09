@@ -24,10 +24,10 @@ export interface ExerciseProgress {
   }>;
 }
 
-export interface ProgressRange {
+export type ProgressRange = {
   from?: string;
   to?: string;
-}
+};
 
 export const progressService = {
   overall: () => apiRequest<{ progress: OverallProgress }>('/progress/overall'),

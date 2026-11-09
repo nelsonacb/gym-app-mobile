@@ -1,32 +1,11 @@
 import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { Pressable, Text, View } from 'react-native';
+import { formatDate, formatDuration, formatVolume } from '../../lib/utils';
 import type { WorkoutSessionSummary } from '../lib/api/types';
 
 interface Props {
   session: WorkoutSessionSummary;
   onPress?: () => void;
-}
-
-function formatDuration(seconds: number | null): string {
-  if (!seconds) return '—';
-  const h = Math.floor(seconds / 3600);
-  const m = Math.floor((seconds % 3600) / 60);
-  if (h > 0) return `${h}h ${m}m`;
-  return `${m}m`;
-}
-
-function formatDate(iso: string): string {
-  const d = new Date(iso);
-  return d.toLocaleDateString('es-ES', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-  });
-}
-
-function formatVolume(volume: number | null): string {
-  if (volume === null) return '—';
-  return `${volume.toLocaleString()} kg`;
 }
 
 export function WorkoutSessionCard({ session, onPress }: Props) {

@@ -11,7 +11,11 @@ import {
   useUpdateWorkoutPlan,
   useWorkoutPlan,
 } from '../lib/hooks/use-workout-plans';
-import { planSchema, type PlanFormData } from '../schemas/plan.schema';
+import {
+  PlanFormOutput,
+  planSchema,
+  type PlanFormInput,
+} from '../schemas/plan.schema';
 
 export default function PlanFormScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
@@ -24,7 +28,11 @@ export default function PlanFormScreen() {
   const createPlan = useCreateWorkoutPlan();
   const updatePlan = useUpdateWorkoutPlan(id ?? '');
 
-  const { control, handleSubmit, reset } = useForm<PlanFormData>({
+  const { control, handleSubmit, reset } = useForm<
+    PlanFormInput,
+    unknown,
+    PlanFormOutput
+  >({
     resolver: zodResolver(planSchema),
     defaultValues: {
       name: '',
@@ -38,10 +46,7 @@ export default function PlanFormScreen() {
     name: 'exercises',
   });
 
-  // Prellenar si es edición (cuando existingPlan cargue)
-  // Puedes hacerlo con un useEffect que llame reset(existingPlan)
-
-  const onSubmit = (data: PlanFormData) => {
+  const onSubmit = (data: PlanFormOutput) => {
     const payload = {
       name: data.name,
       description: data.description || undefined,
@@ -129,8 +134,6 @@ export default function PlanFormScreen() {
                 />
               </Pressable>
             </View>
-            {/* Aquí irían selectores para targetSets, targetReps, restSeconds */}
-            {/* Por simplicidad, usa TextInput con control de react-hook-form */}
           </View>
         ))}
 

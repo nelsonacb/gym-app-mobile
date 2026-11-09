@@ -40,7 +40,6 @@ export default function ProfileScreen() {
         Profile
       </Text>
 
-      {/* --- Datos del usuario --- */}
       <View className='mb-4 rounded-2xl bg-white dark:bg-gray-800 p-4'>
         <Text className='mb-3 text-sm font-medium text-gray-900 dark:text-white'>
           Personal details
@@ -64,7 +63,6 @@ export default function ProfileScreen() {
         )}
       </View>
 
-      {/* --- Preferencias --- */}
       <View className='mb-4 rounded-2xl bg-white dark:bg-gray-800 p-4'>
         <Text className='mb-3 text-sm font-medium text-gray-900 dark:text-white'>
           Preferences
@@ -72,7 +70,7 @@ export default function ProfileScreen() {
         <ThemeToggle />
         <View className='flex-row items-center justify-between py-3'>
           <View className='flex-1 pr-4'>
-            <Text className='text-gray-700 dark:text-gray-300'>
+            <Text className='text-gray-900 dark:text-white'>
               Weekly reminder
             </Text>
             <Text className='text-xs text-gray-400 dark:text-gray-500'>
@@ -103,14 +101,16 @@ export default function ProfileScreen() {
         ) : prefs.data ? (
           <>
             <View className='flex-row items-center justify-between py-2'>
-              <Text className='text-gray-700'>Weekly Goal</Text>
+              <Text className='text-gray-900 dark:text-white'>Weekly Goal</Text>
               <Text className='font-semibold text-gray-900 dark:text-white'>
                 {prefs.data.weeklyGoal ?? 'Undefined'}
                 {prefs.data.weeklyGoal ? ' sessions' : ''}
               </Text>
             </View>
             <View className='flex-row items-center justify-between py-2'>
-              <Text className='text-gray-700'>Unit of weight</Text>
+              <Text className='text-gray-900 dark:text-white'>
+                Unit of weight
+              </Text>
               <Text className='font-semibold text-gray-900 dark:text-white'>
                 {prefs.data.weightUnit}
               </Text>
@@ -123,9 +123,8 @@ export default function ProfileScreen() {
         )}
       </View>
 
-      {/* --- Estadísticas --- */}
       <View className='mb-4 rounded-2xl bg-white dark:bg-gray-800 p-4'>
-        <Text className='mb-3 text-sm font-medium text-gray-500'>
+        <Text className='mb-3 text-sm font-medium text-gray-900 dark:text-white'>
           Global statisticss
         </Text>
         {progress.isLoading ? (
@@ -133,19 +132,23 @@ export default function ProfileScreen() {
         ) : progress.data ? (
           <>
             <View className='flex-row justify-between py-2'>
-              <Text className='text-gray-700'>Sessions completed</Text>
+              <Text className='text-gray-900 dark:text-white'>
+                Sessions completed
+              </Text>
               <Text className='font-semibold text-gray-900 dark:text-white'>
                 {progress.data.totalSessions}
               </Text>
             </View>
             <View className='flex-row justify-between py-2'>
-              <Text className='text-gray-700'>Total volume</Text>
+              <Text className='text-gray-900 dark:text-white'>
+                Total volume
+              </Text>
               <Text className='font-semibold text-gray-900 dark:text-white'>
                 {progress.data.totalVolume.toLocaleString()} kg
               </Text>
             </View>
             <View className='flex-row justify-between py-2'>
-              <Text className='text-gray-700'>Total time</Text>
+              <Text className='text-gray-900 dark:text-white'>Total time</Text>
               <Text className='font-semibold text-gray-900 dark:text-white'>
                 {Math.round(progress.data.totalDurationSeconds / 60)} min
               </Text>
@@ -156,7 +159,6 @@ export default function ProfileScreen() {
         )}
       </View>
 
-      {/* --- Logout --- */}
       <Pressable
         className='mt-2 items-center rounded-lg border border-red-200 bg-red-50 p-4 active:bg-red-100'
         onPress={handleLogout}

@@ -111,7 +111,6 @@ export default function PlanDetailScreen() {
       <ScrollView
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 24 }}
       >
-        {/* Info card */}
         <View className='mb-4 rounded-2xl bg-white p-4 dark:bg-gray-800'>
           {plan.description ? (
             <Text className='mb-3 text-sm text-gray-600 dark:text-gray-300'>
@@ -138,7 +137,6 @@ export default function PlanDetailScreen() {
           </View>
         </View>
 
-        {/* Exercises con ilustración */}
         <Text className='mb-2 text-sm font-semibold text-gray-500 dark:text-gray-400'>
           EXERCICES
         </Text>
@@ -175,7 +173,6 @@ export default function PlanDetailScreen() {
         ))}
       </ScrollView>
 
-      {/* Sticky footer */}
       <View
         className='border-t border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-800'
         style={{ paddingBottom: Math.max(insets.bottom, 16) }}

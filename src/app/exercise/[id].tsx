@@ -75,7 +75,6 @@ export default function ExerciseDetailScreen() {
       className='flex-1 bg-gray-50 dark:bg-gray-900'
       style={{ paddingTop: insets.top }}
     >
-      {/* Header */}
       <View className='flex-row items-center px-4 py-3'>
         <Pressable
           onPress={() => router.back()}
@@ -98,7 +97,6 @@ export default function ExerciseDetailScreen() {
       <ScrollView
         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 24 }}
       >
-        {/* Info card */}
         <View
           className='mb-4 rounded-2xl p-4'
           style={{ backgroundColor: cardBg }}
@@ -117,7 +115,6 @@ export default function ExerciseDetailScreen() {
           </Text>
         </View>
 
-        {/* PRs */}
         <View className='mb-4 flex-row'>
           <View
             className='mr-3 flex-1 rounded-2xl p-4'
@@ -157,7 +154,6 @@ export default function ExerciseDetailScreen() {
           </View>
         </View>
 
-        {/* Gráfico de evolución */}
         {lineData.length >= 2 ? (
           <View
             className='mb-4 rounded-2xl p-4'
@@ -204,7 +200,6 @@ export default function ExerciseDetailScreen() {
           </View>
         )}
 
-        {/* Historial de sesiones */}
         <Text
           className='mb-2 text-sm font-semibold'
           style={{ color: textSecondary }}

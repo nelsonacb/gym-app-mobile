@@ -50,7 +50,6 @@ export function ShareableSummary({
         ref={viewRef}
         collapsable={false}
         className='rounded-2xl bg-white p-4 dark:bg-gray-800'
-        // style={{ backgroundColor: '#FFFFFF' }}
       >
         <Text className='text-center text-lg font-bold text-gray-900 dark:text-white'>
           ForgeFit — My week

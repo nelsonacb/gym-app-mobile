@@ -13,4 +13,5 @@ export const planSchema = z.object({
   exercises: z.array(planExerciseSchema).min(1, 'Add at least one exercise'),
 });
 
-export type PlanFormData = z.infer<typeof planSchema>;
+export type PlanFormInput = z.input<typeof planSchema>;
+export type PlanFormOutput = z.output<typeof planSchema>;

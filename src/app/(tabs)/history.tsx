@@ -9,15 +9,10 @@ import {
   View,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { FILTERS } from '../../../lib/utils';
 import { WorkoutSessionCard } from '../../components/WorkoutSessionCard';
 import type { SessionStatus } from '../../lib/api/types';
 import { useInfiniteWorkoutSessions } from '../../lib/hooks/use-workout-sessions';
-
-const FILTERS: { key: SessionStatus; label: string }[] = [
-  { key: 'COMPLETED', label: 'Completed' },
-  { key: 'IN_PROGRESS', label: 'In progress' },
-  { key: 'CANCELLED', label: 'Cancelled' },
-];
 
 export default function HistoryScreen() {
   const router = useRouter();
@@ -50,7 +45,6 @@ export default function HistoryScreen() {
       className='flex-1 bg-gray-50 dark:bg-gray-900'
       style={{ paddingTop: insets.top }}
     >
-      {/* Header */}
       <View className='px-4 pt-4'>
         <Text className='text-2xl font-bold text-gray-900 dark:text-white'>
           History
@@ -60,7 +54,6 @@ export default function HistoryScreen() {
         </Text>
       </View>
 
-      {/* Filtros */}
       <View className='mt-3 flex-row px-4'>
         {FILTERS.map((f) => {
           const isActive = filter === f.key;
@@ -84,7 +77,6 @@ export default function HistoryScreen() {
         })}
       </View>
 
-      {/* Lista */}
       {isLoading ? (
         <View className='flex-1 items-center justify-center'>
           <ActivityIndicator
@@ -126,7 +118,7 @@ export default function HistoryScreen() {
           )}
           ListEmptyComponent={
             <Text className='mt-10 text-center text-gray-500 dark:text-gray-400'>
-              No hay sesiones{' '}
+              There are no sessions{' '}
               {filter === 'COMPLETED'
                 ? 'completed'
                 : filter === 'IN_PROGRESS'
