@@ -21,8 +21,8 @@ export default function LoginScreen() {
   };
 
   return (
-    <View className='flex-1 justify-center bg-gray-50 px-6'>
-      <Text className='mb-8 text-center text-3xl font-bold text-gray-900'>
+    <View className='flex-1 justify-center bg-gray-50 px-6 dark:bg-gray-900'>
+      <Text className='mb-8 text-center text-3xl font-bold text-gray-900 dark:text-white'>
         ForgeFit
       </Text>
 
@@ -41,14 +41,14 @@ export default function LoginScreen() {
       />
 
       {login.error ? (
-        <Text className='mb-2 text-center text-sm text-red-500'>
+        <Text className='mb-2 text-center text-sm text-red-500 dark:text-red-400'>
           Invalid credentials
         </Text>
       ) : null}
 
       <Pressable
-        className={`mt-2 items-center rounded-lg p-4 ${login.isPending ? 'bg-blue-300' : 'bg-blue-600'}`}
-        onPress={handleSubmit(onSubmit)}
+        className={`mt-2 items-center rounded-lg p-4 ${login.isPending ? 'bg-blue-300 dark:bg-blue-800' : 'bg-blue-600 dark:bg-blue-500'}`}
+        onPress={() => handleSubmit(onSubmit)()}
         disabled={login.isPending}
       >
         <Text className='font-semibold text-white'>
@@ -60,7 +60,7 @@ export default function LoginScreen() {
         className='mt-4 items-center'
         onPress={() => router.push('/(auth)/register')}
       >
-        <Text className='text-sm text-blue-600'>
+        <Text className='text-sm text-blue-600 dark:text-blue-400'>
           Don't have an account? Sign up
         </Text>
       </Pressable>

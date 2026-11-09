@@ -30,11 +30,11 @@ export default function RegisterScreen() {
       : null;
 
   return (
-    <View className='flex-1 justify-center bg-gray-50 px-6'>
-      <Text className='mb-2 text-center text-3xl font-bold text-gray-900'>
+    <View className='flex-1 justify-center bg-gray-50 px-6 dark:bg-gray-900'>
+      <Text className='mb-2 text-center text-3xl font-bold text-gray-900 dark:text-white'>
         Create account
       </Text>
-      <Text className='mb-8 text-center text-sm text-gray-500'>
+      <Text className='mb-8 text-center text-sm text-gray-500 dark:text-gray-400'>
         Start logging your workouts
       </Text>
 
@@ -64,16 +64,18 @@ export default function RegisterScreen() {
       />
 
       {errorMessage ? (
-        <Text className='mb-2 text-center text-sm text-red-500'>
+        <Text className='mb-2 text-center text-sm text-red-500 dark:text-red-400'>
           {errorMessage}
         </Text>
       ) : null}
 
       <Pressable
         className={`mt-2 items-center rounded-lg p-4 ${
-          register.isPending ? 'bg-blue-300' : 'bg-blue-600'
+          register.isPending
+            ? 'bg-blue-300 dark:bg-blue-800'
+            : 'bg-blue-600 dark:bg-blue-500'
         }`}
-        onPress={handleSubmit(onSubmit)}
+        onPress={() => handleSubmit(onSubmit)()}
         disabled={register.isPending}
       >
         <Text className='font-semibold text-white'>
@@ -85,7 +87,7 @@ export default function RegisterScreen() {
         className='mt-4 items-center'
         onPress={() => router.back()}
       >
-        <Text className='text-sm text-blue-600'>
+        <Text className='text-sm text-blue-600 dark:text-blue-400'>
           Already have an account? Log in
         </Text>
       </Pressable>

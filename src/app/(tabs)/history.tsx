@@ -102,7 +102,9 @@ export default function HistoryScreen() {
           refreshControl={
             <RefreshControl
               refreshing={isRefetching}
-              onRefresh={refetch}
+              onRefresh={() => {
+                void refetch();
+              }}
             />
           }
           renderItem={({ item }) => (
@@ -137,7 +139,7 @@ export default function HistoryScreen() {
                   color='#2563EB'
                 />
               </View>
-            ) : null
+            ) : undefined
           }
         />
       )}

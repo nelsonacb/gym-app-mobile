@@ -2,6 +2,7 @@ import { Ionicons } from '@react-native-vector-icons/ionicons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import {
   ActivityIndicator,
+  Alert,
   Pressable,
   ScrollView,
   Text,
@@ -34,18 +35,38 @@ export default function PlanDetailScreen() {
         },
         onError: (error) => {
           if (error instanceof ApiError && error.status === 409) {
-            const details = error.details as
-              | { sessionId?: string; details?: { sessionId?: string } }
+            const d = error.details as
+              | {
+                  sessionId?: string;
+                  details?: { sessionId?: string };
+                  error?: { details?: { sessionId?: string } };
+                }
               | undefined;
+
             const existingId =
-              details?.sessionId ?? details?.details?.sessionId;
+              d?.sessionId ??
+              d?.details?.sessionId ??
+              d?.error?.details?.sessionId;
+
             if (existingId) {
               router.push({
                 pathname: '/session/[id]',
                 params: { id: existingId },
               });
+              return;
             }
+
+            Alert.alert(
+              'Active session exists',
+              'You already have an in-progress session. Finish or cancel it first.',
+            );
+            return;
           }
+
+          Alert.alert(
+            'Could not start session',
+            error instanceof Error ? error.message : 'Unknown error',
+          );
         },
       },
     );
@@ -88,7 +109,6 @@ export default function PlanDetailScreen() {
       className='flex-1 bg-gray-50 dark:bg-gray-900'
       style={{ paddingTop: insets.top }}
     >
-      {/* Header */}
       <View className='flex-row items-center px-4 py-3'>
         <Pressable
           onPress={() => router.back()}
@@ -185,7 +205,7 @@ export default function PlanDetailScreen() {
           disabled={startSession.isPending}
         >
           <Text className='text-base font-semibold text-white'>
-            {startSession.isPending ? 'Starting...' : 'Login'}
+            {startSession.isPending ? 'Starting...' : 'Start workout'}
           </Text>
         </Pressable>
       </View>

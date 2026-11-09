@@ -1,6 +1,6 @@
 import { Ionicons } from '@react-native-vector-icons/ionicons';
 import * as Sharing from 'expo-sharing';
-import { useRef, useState } from 'react';
+import { useRef, useState, type ComponentRef } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { captureRef } from 'react-native-view-shot';
 import { WeeklyVolumeChart } from './WeeklyVolumeChart';
@@ -18,7 +18,7 @@ export function ShareableSummary({
   totalSessions,
   totalVolume,
 }: Props) {
-  const viewRef = useRef<View>(null);
+  const viewRef = useRef<ComponentRef<typeof View>>(null);
   const [sharing, setSharing] = useState(false);
 
   const handleShare = async () => {

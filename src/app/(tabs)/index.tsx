@@ -77,7 +77,9 @@ export default function DashboardScreen() {
         )}
       </View>
       <View className='mb-4 rounded-2xl bg-white p-4 dark:bg-gray-800'>
-        <Text className='mb-2 text-sm text-gray-500'>Overall progress</Text>
+        <Text className='mb-2 text-sm text-gray-900 dark:text-white'>
+          Overall progress
+        </Text>
         {isUnauthenticated ? (
           <Text className='text-sm text-amber-600'>
             Log in to see your progress.
