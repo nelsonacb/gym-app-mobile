@@ -1,6 +1,12 @@
 import { ShareableSummary } from '@/components/ShareableSummary';
+import { WorkoutSession } from '@/lib/api/types';
+import Ionicons from '@react-native-vector-icons/ionicons';
+import { onlineManager } from '@tanstack/react-query';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Pressable,
   RefreshControl,
   ScrollView,
   Text,
@@ -9,6 +15,8 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { WeeklyVolumeChart } from '../../components/WeeklyVolumeChart';
 import { ApiError } from '../../lib/api/errors';
+import { activeSessionStore } from '../../lib/db/active-session';
+import { useActiveSession } from '../../lib/hooks/use-active-session';
 import { useCurrentUser } from '../../lib/hooks/use-auth';
 import { useOverallProgress } from '../../lib/hooks/use-progress';
 
@@ -16,6 +24,9 @@ export default function DashboardScreen() {
   const insets = useSafeAreaInsets();
   const me = useCurrentUser();
   const progress = useOverallProgress();
+  const activeSession = useActiveSession();
+  const [localSession, setLocalSession] = useState<WorkoutSession | null>(null);
+  const isOnline = onlineManager.isOnline();
 
   const isUnauthenticated =
     (me.error instanceof ApiError && me.error.status === 401) ||
@@ -29,6 +40,14 @@ export default function DashboardScreen() {
   const firstName = me.data?.name?.split(' ')[0];
   const hasWeeklyData = !!progress.data?.weeklyFrequency?.length;
 
+  useEffect(() => {
+    if (activeSession.isError) {
+      setLocalSession(activeSessionStore.get());
+    }
+  }, [activeSession.isError]);
+
+  const sessionToShow = activeSession.data ?? localSession;
+
   return (
     <ScrollView
       className='flex-1 bg-gray-50 dark:bg-gray-900'
@@ -41,6 +60,34 @@ export default function DashboardScreen() {
         />
       }
     >
+      {sessionToShow ? (
+        <Pressable
+          onPress={() =>
+            router.push({
+              pathname: '/session/[id]',
+              params: { id: sessionToShow.id },
+            })
+          }
+          className='mb-4 flex-row items-center rounded-2xl bg-blue-600 p-4'
+        >
+          <Ionicons
+            name='play-circle'
+            size={24}
+            color='#FFFFFF'
+          />
+          <View className='ml-3 flex-1'>
+            <Text className='text-sm font-bold text-white'>
+              {isOnline
+                ? 'Training in progress'
+                : 'Training in progress (offline)'}
+            </Text>
+            <Text className='text-xs text-blue-100'>
+              Tap to continue where you left off
+            </Text>
+          </View>
+        </Pressable>
+      ) : null}
+
       <View className='mb-4 bg-white dark:bg-gray-800 p-4'>
         <Text className='text-2xl font-bold text-gray-900 dark:text-white'>
           {firstName ? `Hello, ${firstName}` : 'Dashboard'}

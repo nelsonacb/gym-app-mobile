@@ -4,6 +4,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
+import { activeSessionStore } from '../db/active-session';
 import { queryKeys } from '../query/query-keys';
 import {
   workoutSessionsService,
@@ -41,6 +42,7 @@ export function useStartWorkoutSession() {
 export function useUpdateSet() {
   const qc = useQueryClient();
   return useMutation({
+    mutationKey: ['sets', 'update'],
     mutationFn: ({
       sessionId,
       sessionExerciseId,
@@ -69,10 +71,12 @@ export function useUpdateSet() {
 export function useCompleteWorkoutSession() {
   const qc = useQueryClient();
   return useMutation({
+    mutationKey: ['sessions', 'complete'],
     mutationFn: (id: string) => workoutSessionsService.complete(id),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.workoutSessions.all });
       qc.invalidateQueries({ queryKey: queryKeys.progress.overall });
+      activeSessionStore.clear();
     },
   });
 }
@@ -80,10 +84,12 @@ export function useCompleteWorkoutSession() {
 export function useCancelWorkoutSession() {
   const qc = useQueryClient();
   return useMutation({
+    mutationKey: ['sessions', 'cancel'],
     mutationFn: (id: string) => workoutSessionsService.cancel(id),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.workoutSessions.all });
       qc.invalidateQueries({ queryKey: queryKeys.progress.overall });
+      activeSessionStore.clear();
     },
   });
 }

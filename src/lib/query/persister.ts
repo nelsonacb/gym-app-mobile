@@ -6,3 +6,12 @@ export const asyncStoragePersister = createAsyncStoragePersister({
   key: 'FORGEFIT_REACT_QUERY_CACHE',
   throttleTime: 1000,
 });
+
+export const persistOptions = {
+  persister: asyncStoragePersister,
+  maxAge: 1000 * 60 * 60 * 24 * 7, // * 7 days
+  dehydrateOptions: {
+    shouldDehydrateMutation: (mutation: any) =>
+      mutation.state.status === 'paused',
+  },
+};

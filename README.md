@@ -20,19 +20,21 @@ A mobile gym app built with **React Native + Expo + TypeScript**. Authenticate, 
 
 ## 🧰 Tech Stack
 
-| Layer         | Technology                                     |
-| :------------ | :--------------------------------------------- |
-| Framework     | Expo SDK 57, React Native 0.86                 |
-| Language      | TypeScript                                     |
-| Routing       | Expo Router (file-based)                       |
-| Styling       | NativeWind (Tailwind CSS)                      |
-| Server state  | TanStack Query                                 |
-| Client state  | Zustand                                        |
-| Forms         | React Hook Form + Zod                          |
-| Charts        | react-native-gifted-charts                     |
-| Icons         | @react-native-vector-icons/ionicons            |
-| Illustrations | Local SVGs with `react-native-svg-transformer` |
-| Notifications | expo-notifications                             |
+| Layer          | Technology                                     |
+| :------------- | :--------------------------------------------- |
+| Framework      | Expo SDK 57, React Native 0.86                 |
+| Language       | TypeScript                                     |
+| Routing        | Expo Router (file-based)                       |
+| Styling        | NativeWind (Tailwind CSS)                      |
+| Server state   | TanStack Query                                 |
+| Client state   | Zustand                                        |
+| Forms          | React Hook Form + Zod                          |
+| Charts         | react-native-gifted-charts                     |
+| Icons          | @react-native-vector-icons/ionicons            |
+| Illustrations  | Local SVGs with `react-native-svg-transformer` |
+| Notifications  | expo-notifications                             |
+| Testing        | Jest + jest-expo, React Native Testing Library |
+| unit/component |
 
 ---
 
@@ -83,6 +85,7 @@ src/
 │   ├── exercise/[id].tsx       # Per-exercise progress
 │   └── plan-form.tsx           # Create/edit routine (modal)
 ├── components/                 # Reusable UI
+├── /__tests__/                 # Test components
 ├── lib/
 │   ├── api/                    # fetch wrapper, types, errors, token
 │   ├── services/               # Per-resource API calls
@@ -150,6 +153,7 @@ npm run android    # Open on Android
 npm run ios        # Open on iOS
 npm run web        # Open in browser
 npm run lint       # Linter
+npm test           # Run tests
 ```
 
 ---

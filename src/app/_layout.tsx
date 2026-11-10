@@ -1,10 +1,13 @@
+import { registerMutationDefaults } from '@/lib/query/mutation-defaults';
+import { setupNetworkManager } from '@/lib/query/network';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import '../global.css';
+import { initDatabase } from '../lib/db/database';
 import { useAuthBootstrap } from '../lib/hooks/use-auth-bootstrap';
-import { asyncStoragePersister } from '../lib/query/persister';
+import { persistOptions } from '../lib/query/persister';
 import { queryClient } from '../lib/query/query-client';
 import { useAuthStore } from '../lib/stores/auth.store';
 
@@ -53,10 +56,25 @@ function RootLayoutNav() {
 }
 
 export default function RootLayout() {
+  useEffect(() => {
+    try {
+      initDatabase();
+      setupNetworkManager();
+      registerMutationDefaults(queryClient);
+    } catch (err) {
+      console.error('[db] init failed', err);
+    }
+  }, []);
   return (
     <PersistQueryClientProvider
       client={queryClient}
-      persistOptions={{ persister: asyncStoragePersister }}
+      persistOptions={persistOptions}
+      onSuccess={() => {
+        queryClient.resumePausedMutations().then(() => {
+          queryClient.invalidateQueries({ queryKey: ['workout-sessions'] });
+          queryClient.invalidateQueries({ queryKey: ['progress'] });
+        });
+      }}
     >
       <RootLayoutNav />
     </PersistQueryClientProvider>
