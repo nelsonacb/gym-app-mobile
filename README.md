@@ -2,6 +2,8 @@
 
 A mobile gym app built with **React Native + Expo + TypeScript**. Authenticate, create and run workout routines, log sets (weight/reps), track weekly progress with charts, and share summaries.
 
+![App Screenshot](./Screenshots/Screenshot_20261110_125851_Expo%20Go.jpg)
+
 ---
 
 ## ✨ Features
@@ -38,12 +40,28 @@ A mobile gym app built with **React Native + Expo + TypeScript**. Authenticate, 
 
 ---
 
+## 📱 Demo and Backend (Important Note)
+
+Some screenshots of this app in Screenshots folder.
+
+This project includes a **demo APK** that you can download to test the application on a real Android device.
+
+**[⬇️ Download APK (Google Drive)](https://drive.google.com/file/d/1mmis2WYMAsWWWYoIPZE_UBmbNIIncbyp/view?usp=sharing)**
+
+> **⚠️ Backend notice:** The application is configured to connect to a test backend deployed on **Render**. This free service **automatically shuts down after a period of inactivity**, so some server-dependent features (login, data loading, etc.) may not respond correctly if the backend is "asleep." The app's UI and navigation work without issues.
+
+### 🛠️ Want to try it locally?
+
+If you want to run the project on your own machine, follow the installation instructions below. You will need to configure your own environment variables for the backend (or use the test backend if it is active).
+
+---
+
 ## 📋 Requirements
 
 - Node.js ≥ 20
 - npm or yarn
 - Expo Go on your device (or a development build for notifications on Android)
-- ForgeFit backend running (default: `http://<your-ip>:4000/api`)
+- ForgeFit backend (https://github.com/nelsonacb/gym-app-backend) running (default: `http://<your-ip>:4000/api`)
 
 ---
 
