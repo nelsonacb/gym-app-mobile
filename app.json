@@ -17,7 +17,8 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.GymApp"
     },
     "web": {
       "output": "static",
@@ -33,12 +34,23 @@
           "imageWidth": 76
         }
       ],
-      "@react-native-vector-icons/ionicons",
-      "expo-font"
+      "expo-secure-store",
+      "expo-sharing",
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "87365981-3af3-44e1-876d-42a9661b0416"
+      }
     }
   }
 }

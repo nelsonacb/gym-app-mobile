@@ -1,5 +1,5 @@
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons/static";
+import MaterialIcons from "@react-native-vector-icons/material-icons/static";
 import {
   SF_SYMBOLS_TO_MATERIAL_COMMUNITY_ICONS,
   SF_SYMBOLS_TO_MATERIAL_ICONS,

@@ -1,5 +1,5 @@
-import type MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import type MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import type MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons/static";
+import type MaterialIcons from "@react-native-vector-icons/material-icons/static";
 import type { SymbolViewProps } from 'expo-symbols';
 import type { IconMapper } from 'rn-icon-mapper';
 
